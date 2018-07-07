@@ -28,6 +28,189 @@
 					### シェルで文字コードに触れてみる
 					#### 講師:USP友の会 鳥海秀一
 				</section>
+				<section data-markdown>
+					#### 講師： 鳥海秀一
+					* USP友の会の古参会員
+					* シェル芸勉強会午前の部をよく担当
+				</section>
+				<section data-markdown>
+					## はじめに
+				</section>
+				<section data-markdown>
+					### なぜ文字コード？
+					* シェル芸で扱うのは主にテキストストリーム
+					* テキストストリームの構成要素は文字コード
+					* すなわち文字コードはシェル芸の基本
+					* 午前の部は初心者向き勉強会
+					* 初心者が勉強すべきなのは基本
+				</section>
+				<section data-markdown>
+					### なぜ文字コード？
+					* 文字は文明社会のインフラストラクチャ
+					* 現在はデジタル社会
+					* 文字コードは現代社会のインフラストラクチャ
+					* 全ての現代人は文字コードを勉強すべし
+				</section>
+				<section data-markdown>
+					### 普通の奴らの上を行くために
+					* 難しいことをやれ
+					* 新しいことをやれ
+					* つまらないことをやれ
+				</section>
+				<section data-markdown>
+					### つまらない文字コードの
+					### 勉強会を成立させる方法
+				</section>
+				<section data-markdown>
+					## ゆるシェル
+				</section>
+				<section data-markdown>
+					### ゆるシェルとは
+					* つきつめない
+					* 真っ直ぐ進まない
+					* 時間気にしない
+					* ゆるいシェル芸しか使わない
+				</section>
+				<section data-markdown>
+					### 講義の前提
+					* なし
+				</section>
+				<section data-markdown>
+					### 参考文献
+					* プログラマのための文字コード技術入門（技術評論社）
+				</section>
+				<section data-markdown>
+					### 文字コードとは
+					* 文字集合の各文字に対応する符号を一意に定めたもの
+					* 文字の識別子としての機能のみ扱う
+					* 扱う文字集合の違いやその他の理由により様々な文字コードが存在する
+				</section>
+				<section data-markdown>
+					### 本日の勉強会で使うコマンド
+					* locale
+					* iconv
+					* 文字→数値変換コマンド
+					* 数値→文字変換コマンド
+					* 基数変換コマンド
+					* その他基本コマンド
+				</section>
+				<section data-markdown>
+					### localeコマンド
+					* 現在のロケール設定を確認するコマンド
+					* lacale -a でサポートしているロケール一覧を表示
+					* locale -m でサポートしている文字マッピング一覧を表示
+					* locale カテゴリ名 で カテゴリに属する全てのキーワードのロケール情報を表示
+					* locale キーワード名 で キーワードのロケール情報を表示
+					* マシンによりサポートしているカテゴリ、キーワードは異なる
+				</section>
+				<section data-markdown>
+					### ロケールの命名規則
+					### language[_territory][.codeset][@modifier]
+					* 2文字のlanguageコードはISO639からのもの
+					* 2文字のterritoryコードはISO3166からのもの
+					* codesetはロケールで使用するコードセット
+					* modifierは、修飾子なしのロケールと区別するための特性の名前
+				</section>
+				<section data-markdown>
+					### localeのカテゴリ（一部）
+					* LC_COLLATE : 文字の照合情報等を定義
+					* LC_CTYPE : 文字種別や文字属性等を定義
+					* LC_MESSAGES : 肯定応答、否定応答を定義
+					* LC_MONETARY : 金額を表す形式を定義
+					* LC_NUMERIC : 通貨以外の数値を表す形式を定義
+					* LC_TIME : 日付、時刻の形式を定義
+					* LC_ALL : 上記全て
+				</section>
+				<section data-markdown>
+					### localeコマンドから情報を引き出す
+					* カテゴリー別キーワード数を表示
+						* locale | grep LC | grep -v ALL | cut -d= -f1 | while read s; do printf '%s => %d\n' $s $(locale $s | wc -l); done
+					* ロケール別の曜日を表示
+						* locale -a | grep UTF-8 | while read l; do printf '%s => %s\n' $(echo $l | cut -d. -f1) "$(LANG=$l locale abday)"; done
+				</section>
+				<section data-markdown>
+					#### localeコマンドからは様々な情報が引き出せます
+					### 各自しばらく遊んでみてください
+				</section>
+				<section data-markdown>
+					### iconv コマンド
+					* 文字コードを変換するコマンド
+					* iconv -l でサポートする文字コード一覧を表示
+					* iconv -f 変換元文字コード名 -t 変換先文字コード名 で文字コードの変換を行う
+				</section>
+				<section data-markdown>
+					### 文字→数値変換コマンド
+					* od コマンド
+					* hexdump コマンド
+					* xxd コマンド
+					* printf コマンド
+				</section>
+				<section data-markdown>
+					### od コマンド
+					* ファイルを8進数 (または他の形式) で出力する
+					* 文字コードを解析する際には od -t x1 が便利
+				</section>
+				<section data-markdown>
+					### hexdump コマンド
+					* ファイルを16進数 (または他の形式) で出力する
+					* 文字コードを解析する際には -b または -C オプションが便利
+				</section>
+				<section data-markdown>
+					### xxd
+					* ファイルから16進ダンプを作成したり元に戻したりする
+					* 文字コードを解析する際には -p オプションが便利
+				</section>
+				<section data-markdown>
+					### printf
+					* 引数を書式に従って変換し出力する
+					* 文字コードへの変換は 書式に \'文字 を与えることで行う
+					* 扱える文字はASCIIのみ
+				</section>
+				<section data-markdown>
+					### 数値→文字変換コマンド
+					* xxd コマンド
+						* -r オプションで 16進数を文字に変換
+					* printf コマンド
+						* ¥nnn で 8進数を文字に変換
+						* ¥xnn で 16進数を文字に変換
+						* 扱える文字はASCIIのみ
+				</section>
+				<section data-markdown>
+					### 基数変換コマンド
+					* $(())
+						* 0xnnで16進数を10進数に変換
+						* 0nnnで8進数を10進数に変換
+						* n# で 2〜64進数を10進数に変換
+					* bc
+						* obase= ibase=で基数を任意に変換
+					* printf
+						* %d %o %x の書式で 10進 8進 16進数を扱う
+				</section>
+				<section data-markdown>
+					### コマンドの応用例
+					* シェル芸でASCIIの図形文字の文字コード一覧を作成しなさい
+						* for i in {32..126}; do printf '%02X => %s\n' $i "$(printf '%02X\n' $i | xxd -p -r)"; done | column
+				</section>
+				<section data-markdown>
+					### 問題
+					* シェル芸でISO646-JPの図形文字の文字コード一覧を作成しなさい
+				</section>
+				<section data-markdown>
+					### 解答例
+					* for i in {32..126}; do printf '%02X => %s\n' $i "$(printf '%02X\n' $i | xxd -p -r | iconv -f ISO646-JP -t UTF-8)"; done | column
+				</section>
+				<section data-markdown>
+					### ISO646-JP とは
+					* ASCIIをベースにしてつくられた国際対応の7bit の文字コードコード
+					* 各国の都合に応じて文字を変更してもよい符号位置がどこであるかを定めている
+					* 日本語版では、16進数で5Cの文字と7Eの文字がASCIIと異なる
+				</section>
+				<section data-markdown>
+					### 続きは次回で
+				</section>
+				<section data-markdown>
+					### ご静聴ありがとうございました
+				</section>
 			</div>
 		</div>
 		<script src="lib/js/head.min.js"></script>
